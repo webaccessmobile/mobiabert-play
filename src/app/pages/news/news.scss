@@ -1,0 +1,39 @@
+.news-page {
+  flex: 1 0 auto;
+  margin-bottom: 30px;
+}
+
+.news-content {
+  padding: 0 80px;
+}
+
+.news-section {
+  flex: 1 0 50%;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+.news-title {
+  font-family: 'Dosis', sans-serif;
+  font-weight: 300;
+  font-size: 17px;
+
+  a {
+    color: #868686;
+    text-decoration: none;
+  }
+}
+
+.news-date {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+  color: #00afd3;
+  margin-top: 20px
+}
+
+.news-separator {
+  border: none;
+  border-bottom: solid 1px #d9d9d9;
+  margin-top: 15px
+}

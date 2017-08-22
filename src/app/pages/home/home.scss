@@ -1,0 +1,65 @@
+.showcase-section {
+  background-color: #f8f8f8;
+  padding-top: 70px !important;
+}
+
+.search-section {
+  background: linear-gradient(#f8f8f8, rgba(255, 255, 255, 0)), url('../../images/color-bg.jpg');
+  background-size: auto, cover;
+  padding-bottom: 0px !important;
+}
+
+.genres-section {
+  background: linear-gradient(to right, #f4f6fa 0%,#d6f2f8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+
+  .genre-list-container {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 815px;
+    margin-top: 20px;
+  }
+
+  .genre-container {
+    flex: 0 1 auto;
+    margin-top: 40px;
+  }
+
+  .genre-picture-container {
+    cursor: pointer;
+    text-align: center;
+    height: 185px;
+    width: 185px;
+    border-radius: 50%;
+    background: linear-gradient(to bottom, #bccae2 0%,#00afd3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  }
+
+  .genre-picture {
+    margin-top: 5px;
+    height: 175px;
+    width: 175px;
+    border-radius: 50%;
+  }
+
+  .genre-title {
+    cursor: pointer;
+    margin-top: 20px;
+    font-family: 'Dosis', sans-serif;
+    text-transform: uppercase;
+    font-size: 20px;
+    text-align: center;
+  }
+}
+
+.news-sites {
+  margin-top: 35px;
+
+  img {
+    cursor: pointer;
+  }
+}
+
+.news-site-picture {
+  margin-right: 35px
+}

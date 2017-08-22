@@ -1,0 +1,29 @@
+<div class="login">
+  <div class="form-group">
+    <button class="loginBtn loginBtn--facebook" ng-click="$ctrl.FBAutheticate()">Facebook</button>    
+    <button class="loginBtn loginBtn--google" ng-click="$ctrl.GoogleAutheticate()">Google</button>
+  </div>
+  <hr class="separator">
+  <form name="loginForm" ng-submit="$ctrl.authorize($ctrl.username, $ctrl.password)" autocomplete="on">
+    <div class="form-group with-label">
+      <label for="username">E-mail:</label>
+      <input type="text" ng-model="$ctrl.username" required class="form-control border-primary flex-grow-1">
+      <span class="fa fa-user form-fa-feedback" aria-hidden="true"></span>
+    </div>
+    <div class="form-group with-label">
+      <label for="password">Senha:</label>
+      <input type="password" ng-model="$ctrl.password" required class="form-control border-primary flex-grow-1">
+      <span class="fa fa-lock form-fa-feedback" aria-hidden="true"></span>
+    </div>
+    <div class="form-group">
+      <button class="form-button submit-button" type="submit"><i class="fa fa-sign-in"></i>&nbsp;&nbsp;Entrar</button>
+    </div>
+  </form>
+  <hr class="separator">
+  <div class="form-group alert alert-danger" ng-show="$ctrl.error">
+    <strong>{{$ctrl.error}}</strong>
+  </div>
+  <div id="loader" class="div-loader" ng-show="loading">
+    <img src="../../images/loading.gif"/>
+  </div>
+</div>

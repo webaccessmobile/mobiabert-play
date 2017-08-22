@@ -1,0 +1,25 @@
+<h2 class="results-title" ng-hide="$ctrl.radios.length">Nenhuma rádio encontrada</h2>
+<h2 class="results-title" ng-show="$ctrl.radios.length">{{$ctrl.total}} rádios encontradas</h2>
+<div class="radio-list-container" ng-show="$ctrl.radios.length">
+  <ul class="radio-list horizontal wrap" infinite-scroll="$ctrl.loadMore()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.state != 'idle'">
+    <li class="radio col-3" ng-repeat="radio in $ctrl.radios">
+      <div class="picture-wrap">
+        <img class="picture" ui-sref="radio({radioId: radio.id})" ng-src="{{$ctrl.getImageURL(radio.image.identifier60)}}">
+      </div>
+      <div class="content">
+        <h3 class="title" ui-sref="radio({radioId: radio.id})">{{radio.name}}</h3>
+        <p class="location">{{radio.city}}</p>
+        <div class="actions">
+          <button class="round" mp-play="radio"><div class="inner">&nbsp;<i class="fa fa-play"></i></div></button>
+          <button class="round" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favorite(radio)>
+            <div ng-class="{
+                'inner inner-in': radio.favorite == true,
+                'inner': radio.favorite == false
+              }"><i class="fa fa-heart"></i>
+            </div>
+          </button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

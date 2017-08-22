@@ -1,0 +1,28 @@
+mp-search-form {
+  width: 535px;
+  display: block;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+
+  .search-input {
+    padding-right: 45px;
+  }
+
+  .search-input-icon {
+    position: absolute;
+    right: 18px;
+    font-size: 16px;
+    top: 14px;
+  }
+
+  .select-input {
+    margin-right: 10px;
+  }
+
+  .shadow {
+    float: left;
+    margin-top: 10px;
+    margin-left: -50%;
+  }
+}

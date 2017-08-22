@@ -1,0 +1,186 @@
+mp-search-results {
+  width: 960px;
+  display: block;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  position: relative;
+
+  .loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    color: black;
+
+    &.ng-hide-add {
+      display: none;
+    }
+  }
+}
+
+.results-title {
+  font-family: 'Dosis', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  text-transform: uppercase;
+  text-align: center;
+  color: #333;
+}
+
+.radio-list-container {
+  max-height: 480px;
+  overflow-y: scroll;
+  margin-top: 20px;
+}
+
+.radio-list, .simple-list {
+  display: flex;
+  align-items: stretch;
+
+  &.horizontal {
+    flex-direction: row;
+  }
+
+  &.vertical {
+    flex-direction: column;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+
+  &.nowrap {
+    flex-wrap: nowrap;
+  }
+
+  &.just-center {
+    justify-content: center;
+  }
+
+  &.align-center {
+    align-content: center;
+  }
+}
+
+.state-list, .simple-list {
+  font-family: 'Dosis', sans-serif;
+  font-size: 18px;
+}
+
+.radio-list {
+  .radio {
+    display: flex;
+    flex-flow: row nowrap;
+    padding: 5px;
+    box-sizing: border-box;
+
+    &.col-3 {
+      width: 33.33333333%;
+    }
+
+    &:nth-child(even) {
+      background: #f1f1f1;
+    }
+
+    &:nth-child(odd) {
+      background: #fff;
+    }
+
+    .picture-wrap {
+      display: flex;
+      flex-flow: column nowrap;
+      align-content: center;
+      justify-content: center;
+      flex: 0 0 100px;
+      cursor: pointer;
+      border-radius: 5px;
+      border: solid 1px #bfbfbf;
+      background: #fff;
+      overflow: hidden;
+      width: 100px;
+      height: 100px;
+
+      .picture {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+
+    .content {
+      margin-left: 15px;
+      position: relative;
+
+      .title {
+        cursor: pointer;
+        font-family: 'Dosis', sans-serif;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 1.14em;
+        margin: 0;
+      }
+
+      .location {
+        font-family: 'Ubuntu', sans-serif;
+        font-size: 14px;
+        margin: 5px 0 0;
+      }
+
+      .actions {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: flex-end;
+
+        .round {
+          box-sizing: border-box;
+          border: solid 2px #fff;
+          border-radius: 50%;
+          padding: 0;
+          outline: none;
+          margin-right: 3px;
+        }
+
+        .inner {
+          box-sizing: border-box;
+          color: #14b5d6;
+          background: #fff;
+          width: 24px;
+          height: 24px;
+          border: solid 1px #14b5d6;
+          border-radius: 50%;
+          font-size: 12px;
+          text-align: center;
+          line-height: 2em;
+
+          i {
+            margin-top: 5px;
+          }
+        }
+				
+				.inner-in {
+					background-color: #e53b42;
+					color: white;
+					border: none;
+				}
+
+        button[disabled] .inner,
+				button[disabled] .inner-in {  
+          color: #ccc !important;
+          border-color: #ccc !important;
+        }
+      }
+    }
+  }
+}
+
+.simple-list {
+  .item button {
+    padding: 5px 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    border: none;
+  }
+}

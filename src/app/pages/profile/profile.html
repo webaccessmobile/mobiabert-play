@@ -1,0 +1,122 @@
+<div class="page-cover">
+  <img src="../../images/cover.png">
+</div>
+
+<div class="page-content">
+  <div class="profile">  
+    <div class="info">
+      <div class="picture-container">
+        <img class="picture" src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL($ctrl.usuario.image.identifier100)}}">
+      </div>
+      <div class="info-container">
+        <h1 class="name color-primary">{{$ctrl.usuario.name}}</h1>
+        <p class="location">{{$ctrl.usuario.city.name}}</p>
+      </div>
+    </div>
+    <div class="follow">
+      <div class="follow-container">
+        <div class="label">Seguidores</div>
+        <div class="box with-icon">
+          <label><i class="fa fa-search" aria-hidden="true"></i></label>
+          <input class="search" type="text" ng-model="searchfollower" placeholder="Pesquisar">
+          <ul infinite-scroll="$ctrl.loadMoreFollowers()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.followersState != 'idle'">
+            <li class="item" ng-repeat="follower in $ctrl.followers | filter:searchfollower" ng-click="$ctrl.goToProfile(follower.person.id)">
+              <img class="picture" src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(follower.person.image.identifier100)}}">
+              <span class="name">{{follower.person.name}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="follow-container">
+        <div class="label">Seguindo</div>
+        <div class="box">
+          <label><i class="fa fa-search" aria-hidden="true"></i></label>
+          <input class="search" type="text" ng-model="searchfollowing" placeholder="Pesquisar" />
+          <ul infinite-scroll="$ctrl.loadMoreFollowing()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.followingState != 'idle'">
+            <li class="item" ng-repeat="followed in $ctrl.following | filter:searchfollowing" ng-click="$ctrl.goToProfile(followed.person.id)">
+              <img class="picture" src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(followed.person.image.identifier100)}}">
+              <span class="name">{{followed.person.name}}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="back-stations section">
+  <div class="page-footer">
+    <div class="page-footer-section">
+      <div class="stations">
+        <h2 class="color-primary">Rádios favoritas</h2>
+        <div class="slides">
+          <ul class="container horizontal wrap" infinite-scroll="$ctrl.loadMoreFavorite()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.favoriteState != 'idle'">
+            <li class="slide" ng-repeat="slide in $ctrl.favoriteStations">
+              <div class="content">
+                <div class="logo-wrapper">
+                  <img class="logo" ui-sref="radio({radioId: slide.id})" ng-src="{{$ctrl.getImageURL(slide.image.identifier60)}}">
+                </div>
+                <h3 class="title" ui-sref="radio({radioId: slide.id})">{{slide.name}}</h3>
+                <p class="location">{{slide.city}}</p>
+                <div class="likes">
+                  <i class="fa fa-heart"></i> {{slide.likes}}
+                </div>
+                <div class="actions">
+                  <button class="round" mp-play="slide"><div class="inner"><i class="fa fa-play"></i></div></button>
+                  <button class="round" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favoriteFavoriteStations(slide)>
+                      <div ng-class="{
+                          'inner inner-in': slide.favorite == true,
+                          'inner': slide.favorite == false
+                        }"><i class="fa fa-heart"></i>
+                      </div>
+                  </button>
+                </div>
+                <div class="socials" ng-show="slide.socials.data.length">
+                  <a href="{{social.value}}" target="_blank" class="nodecoration" ng-repeat="social in slide.socials.data">
+                    <button class="social">
+                      <i class="fa" ng-class="{
+                        'fa-facebook-official': social.socialNetwork.value == 'Facebook',
+                        'fa-twitter': social.socialNetwork.value == 'Twitter',
+                        'fa-instagram': social.socialNetwork.value == 'Instagram',
+                      }"></i>
+                    </button>
+                  </a>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gradient-bg section" ng-if="$ctrl.isProfile">
+  <div class="page-footer">
+    <div class="page-footer-section">
+      <h2 class="section-title color-primary">Hist&oacute;rico</h2>
+      <div class="historico-container">
+        <ul class="historico-radio-list vertical wrap"  infinite-scroll="$ctrl.loadMoreHistory()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.historyState != 'idle'">
+          <li class="radio" ng-repeat="radio in $ctrl.history | orderBy:'-historyDate'">
+            <div class="picture-wrap" ng-click="$ctrl.goToRadio(radio.id)">
+              <img class="picture" ng-src="{{$ctrl.getImageURL(radio.image.identifier60)}}">
+            </div>
+            <div class="content">
+              <h3 class="title" ng-click="$ctrl.goToRadio(radio.id)">{{radio.name}}</h3>
+              <p class="location">{{radio.city}}</p>
+              <!--<p class="location">{{radio.historyDate}}</p>-->
+              <div class="actions">
+                <button class="round" mp-play="radio"><div class="inner">&nbsp;<i class="fa fa-play"></i></div></button>
+                <button class="round" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favoriteHistory(radio)>
+                    <div ng-class="{
+                        'inner inner-in': radio.favorite == true,
+                        'inner': radio.favorite == false
+                      }"><i class="fa fa-heart"></i>
+                    </div>
+                </button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

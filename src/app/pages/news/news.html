@@ -1,0 +1,28 @@
+<div class="news-page mgtp50">
+  <h2 class="section-title color-primary mgtp30 text-center">Fique por dentro das notícias</h2>
+  <h2 class="section-title section-title-light color-primary text-center">nos portais</h2>
+  <div class="page-content mgtp30">
+    <div class="news-content flex flex-row flex-nowrap">
+      <div class="news-section">
+        <div class="text-center">
+          <img class="news-site-picture" src="../../images/logo-g1.png" ui-sref="news">
+        </div>
+        <div class="news-item" ng-repeat="item in $ctrl.G1feed">
+          <p class="news-date">{{$ctrl.printDate(item.pubDate)}}</p>
+          <p class="news-title"><a href="{{item.link}}" target="_blank">{{item.title}}</a></p>
+          <hr class="news-separator">
+        </div>
+      </div>
+      <div class="news-section">
+        <div class="text-center">
+          <img src="../../images/logo-abert.png" ui-sref="news">
+        </div>
+        <div class="news-item" ng-repeat="item in $ctrl.ABERTfeed">
+          <p class="news-date">{{$ctrl.printDate(item.pubDate)}}</p>
+          <p class="news-title"><a href="{{item.link}}" target="_blank">{{item.title}}</a></p>
+          <hr class="news-separator">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

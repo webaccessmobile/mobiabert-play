@@ -1,0 +1,35 @@
+<div class="player-container" ng-show="$ctrl.visible">
+  <a ui-sref="radio({radioId: $ctrl.radio.id})" class="radio-picture-container">
+    <img class="radio-picture" ng-src="{{$ctrl.getImageURL($ctrl.radio.image.identifier40)}}">
+  </a>
+  <div class="radio-information">
+    <a ui-sref="radio({radioId: $ctrl.radio.id})" class="radio-name">{{$ctrl.radio.name}}</a>
+    <p class="radio-location">{{$ctrl.radio.city}}</p>
+  </div>
+  <div class="player-controls">
+    <button class="round" ng-click="$ctrl.togglePlay()">
+      <div class="inner">
+        <i class="fa" ng-class="{
+          'fa-spinner fa-spin': $ctrl.state == 'loading',
+          'fa-play': $ctrl.state == 'paused',
+          'fa-pause': $ctrl.state == 'playing',
+        }"></i>
+      </div>
+    </button>
+    <div class="volume">
+      <button class="round" ng-click="$ctrl.toggleMute()">
+        <div class="inner">
+          <i class="fa" ng-class="{
+            'fa fa-volume-up': $ctrl.stateVolume == 'volume-up',
+            'fa fa-volume-down': $ctrl.stateVolume == 'volume-down',
+            'fa fa-volume-off': $ctrl.stateVolume == 'volume-off',
+          }"></i>
+        </div>
+      </button>
+      <input type="range" class="range" min="0" max="100" value="100" ng-model="$ctrl.volume" ng-change="$ctrl.volumeChange()"/>
+    </div>
+    <audio id="audio">
+      <source ng-repeat="source in $ctrl.sources" ng-src="{{source}}">
+    </audio>
+  </div>
+</div>

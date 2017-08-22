@@ -1,0 +1,49 @@
+<div class="radio-slider">
+  <div class="slides">
+    <div class="slide"
+      ng-repeat="slide in $ctrl.slides track by slide.id"
+      ng-class="{
+        'small left out': $index == 0,
+        'small left in': $index == 1,
+        'big middle in': $index == 2,
+        'small right in': $index == 3,
+        'small right out': $index == 4
+      }">
+      <div class="content">
+        <div class="logo-wrapper">
+          <img class="logo" ui-sref="radio({radioId: slide.id})" ng-src="{{$ctrl.getImageURL(slide.image.identifier60)}}">
+        </div>
+        <h3 class="title" ui-sref="radio({radioId: slide.id})">{{slide.name}}</h3>
+        <p class="location">{{slide.city}}</p>
+        <div class="likes">
+          <i class="fa fa-heart"></i> {{slide.likes}}
+        </div>
+        <div class="actions">
+          <button class="round" mp-play="slide"><div class="inner"><i class="fa fa-play"></i></div></button>
+          <button class="round" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favorite(slide)>
+              <div ng-class="{
+                  'inner inner-in': slide.favorite == true,
+                  'inner': slide.favorite == false
+                }"><i class="fa fa-heart"></i>
+              </div>
+          </button>
+        </div>
+        <div class="socials" ng-show="slide.socials.data.length">
+          <a href="{{social.value}}" target="_blank" class="nodecoration" ng-repeat="social in slide.socials.data">
+            <button class="social">
+              <i class="fa" ng-class="{
+                'fa-facebook-official': social.socialNetwork.value == 'Facebook',
+                'fa-twitter': social.socialNetwork.value == 'Twitter',
+                'fa-instagram': social.socialNetwork.value == 'Instagram',
+              }"></i>
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="controls">
+    <button class="arrow left" ng-click="$ctrl.prev()" ng-disabled="$ctrl.busy"><i class="fa fa-chevron-left"></i></button>
+    <button class="arrow right" ng-click="$ctrl.next()" ng-disabled="$ctrl.busy"><i class="fa fa-chevron-right"></i></button>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+@import '../variables';
+
+.light-blue {
+  .color-primary {
+    color: darken($lightBlue, 20%);
+  }
+
+  .border-primary {
+    border-color: darken($lightBlue, 20%);
+  }
+
+  .bg-primary {
+    background-color: lighten($lightBlue, 20%);
+  }
+
+  .color-primary[disabled] {
+    color: #888;
+  }
+
+  .bg-primary[disabled] {
+    background-color: #ccc;
+  }
+
+  .gradient-bg .color-primary {
+    color: #fff;
+  }
+
+  .gradient-bg .border-primary {
+    border-color: #fff;
+  }
+}

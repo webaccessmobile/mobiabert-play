@@ -1,0 +1,32 @@
+<div class="navbar">
+  <div class="navbar-inner">
+    <img src="../../images/mobiabert-play-logo.png" alt="" class="logo" ui-sref="home">
+    <div class="nav-items">
+      <div class="nav-item" ng-show="!$ctrl.isIdentified()">
+        <a ui-sref="about">Sobre o MobiAbert</a>
+        <button ng-click="$ctrl.login()">Entrar <i class="fa fa-sign-in"></i></button>
+      </div>
+      <div class="nav-item" ng-show="$ctrl.isIdentified()">
+        <span>{{$ctrl.profile().name}}</span>
+        <img class="account-picture" ng-src="{{$ctrl.getImgSrc($ctrl.profile().image.identifier100)}}">
+        <div class="dropdown">
+          <span>&nbsp<i class="fa fa-bars"></i>&nbsp</span>
+          <div class="dropdown-content">
+            <ul>
+              <li>
+                <a ui-sref="profile" ng-click="$ctrl.goProfile()"><i class="fa fa-user"></i>  Perfil</a>
+              </li>
+              <li>
+                <a ui-sref="home" ng-click="$ctrl.logout()"><i class="fa fa-sign-out"></i>  Sair</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="navbar-border">
+  <div class="border"></div>
+  <img class="waves" src="../../images/waves.png">
+</div>
