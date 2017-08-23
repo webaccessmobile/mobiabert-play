@@ -449,7 +449,8 @@
         button[disabled] .inner,
         button[disabled] .inner-in {  
           color: #ccc !important;
-          border-color: #ccc !important;
+          border: solid 1px #ccc !important;
+          background-color: #fff !important;
         }
       }
     }
