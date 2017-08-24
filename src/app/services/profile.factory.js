@@ -1,4 +1,4 @@
-let ProfileFactory = function ($http, $user, $api, $q) {
+let ProfileFactory = function ($http, $user) {
   "ngInject";
 
   let favoritestation = (method, station) => { 

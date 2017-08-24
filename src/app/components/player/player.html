@@ -1,10 +1,10 @@
 <div class="player-container" ng-show="$ctrl.visible">
-  <a ui-sref="radio({radioId: $ctrl.radio.id})" class="radio-picture-container">
-    <img class="radio-picture" ng-src="{{$ctrl.getImageURL($ctrl.radio.image.identifier40)}}">
+  <a ui-sref="radio({radioId: $ctrl.radio.id})" class="picture">
+    <img ng-src="{{$ctrl.getImageURL($ctrl.radio.image.identifier40)}}">
   </a>
-  <div class="radio-information">
-    <a ui-sref="radio({radioId: $ctrl.radio.id})" class="radio-name">{{$ctrl.radio.name}}</a>
-    <p class="radio-location">{{$ctrl.radio.city}}</p>
+  <div class="information">
+    <a ui-sref="radio({radioId: $ctrl.radio.id})" class="name">{{$ctrl.radio.name}}</a>
+    <p class="location">{{$ctrl.radio.city}}</p>
   </div>
   <div class="player-controls">
     <button class="round" ng-click="$ctrl.togglePlay()">

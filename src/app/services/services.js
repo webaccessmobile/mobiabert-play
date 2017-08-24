@@ -6,6 +6,7 @@ import api from './api.factory';
 import util from './util.factory';
 import feed from './feed.factory';
 import profile from './profile.factory';
+import radio from './radio.factory';
 
 export default angular.module('app.services', [])
 
@@ -16,5 +17,6 @@ export default angular.module('app.services', [])
 .factory('$util', util)
 .factory('$feed', feed)
 .factory('$profile', profile)
+.factory('$radio', radio)
 
 .name;

@@ -17,10 +17,6 @@ function RadioSliderController($util, $user, $profile) {
     }
   };
 
-  $ctrl.init = () => {
-
-  }
-
   $ctrl.prev = () => {
     if (pointer == 0)
       pointer = $ctrl.radios.length-1;
