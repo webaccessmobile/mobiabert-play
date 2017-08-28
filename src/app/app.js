@@ -2,6 +2,7 @@ import angular from 'angular';
 import ngAnimate from 'angular-animate';
 import ngResource from 'angular-resource';
 import ngInfiniteScroll from 'ng-infinite-scroll';
+import ngBootstrap from 'angular-ui-bootstrap';
 import ngMoment from 'angular-moment';
 import msdElastic from 'angular-elastic';
 import * as firebase from "firebase";
@@ -19,6 +20,7 @@ angular.module('app', [
   ngAnimate,
   ngResource,
   ngInfiniteScroll,
+  ngBootstrap,
   ngMoment,
   msdElastic,
   pages,

@@ -34,113 +34,105 @@
     </div>
   </div>
   <div class="page-section">
-    <section class="radio-section">
-      <nav class="radio-section-nav bg-primary">
-        <ul class="radio-section-nav-items">
-          <li class="radio-section-nav-item color-primary" ng-class="{active: $ctrl.tab == 'wall'}" ng-click="$ctrl.selectTab('wall')">Mural</li>
-          <li class="radio-section-nav-item color-primary" ng-class="{active: $ctrl.tab == 'reviews'}" ng-click="$ctrl.selectTab('reviews')">Avaliações</li>
+    <section class="mural">
+      <nav class="tabs">
+        <ul class="nav">
+          <li class="nav-item color-primary" ng-class="{active: $ctrl.tab == 'wall'}" ng-click="$ctrl.selectTab('wall')">Mural</li>
+          <li class="nav-item color-primary" ng-class="{active: $ctrl.tab == 'reviews'}" ng-click="$ctrl.selectTab('reviews')">Avalia&ccedil;&otilde;es</li>
         </ul>
       </nav>
-      <section class="radio-section-content">
-        <div class="radio-section-content-inner" infinite-scroll="$ctrl.loadMorePosts()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.postsState != 'idle'"
-          ng-show="$ctrl.tab == 'wall'">
-
-          <div class="post-composer border-primary">
-            <div class="msg-container">
-              <div class="msg-author">
-                <img src="../../images/avatar.png">
+      <div class="form-group alert alert-info" ng-show="$ctrl.info">
+        <strong>{{$ctrl.info}}</strong>
+      </div>
+      <div class="form-group alert alert-error" ng-show="$ctrl.error">
+        <strong>{{$ctrl.error}}</strong>
+      </div>
+      <section class="content">
+        <div class="content-inner" ng-show="$ctrl.tab == 'wall'">
+          <div class="composer" ng-show="$ctrl.isIdentified()">
+            <div class="container">
+              <div class="author">
+                <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL($ctrl.profile().image.identifier100)}}">
               </div>
-              <textarea class="msg-text-area" rows="1" msd-elastic ng-model="$ctrl.teste" placeholder="Mande uma mensagem para a rádio"></textarea>
+              <textarea class="text-area" rows="1" ng-model="$ctrl.msgPost" placeholder="Mande uma mensagem para a rádio"></textarea>
             </div>
-            <div class="msg-attachments">
-              <div class="msg-attachment">
-                <!--<button class="close-button"><i class="fa fa-times"></i></button>
-                <img src="">-->
-              </div>
-            </div>
-            <div class="post-composer-actions">
-              <button class="post-composer-button bg-primary color-primary"><i class="fa fa-file-image-o"></i>&nbsp;&nbsp;Anexar uma foto</button>
-              <button class="post-composer-button bg-primary color-primary"><i class="fa fa-microphone"></i>&nbsp;&nbsp;Anexar um áudio</button>
-              <button class="post-composer-submit-button pull-right">Enviar</button>
+            <div class="actions">
+              <button class="button bg-primary color-primary"><i class="fa fa-file-image-o"></i>&nbsp;&nbsp;Anexar uma foto</button>
+              <button class="button bg-primary color-primary"><i class="fa fa-microphone"></i>&nbsp;&nbsp;Anexar um áudio</button>
+              <button class="submit-button pull-right" ng-click="$ctrl.sendPost()">Enviar</button>
             </div>
           </div>
-
-          <div class="radio-post" ng-repeat="post in $ctrl.posts">
-            <div class="radio-post-header">
-              <div class="post-author-picture">
-                <img ng-src="{{$ctrl.getImageURL(post.author.image.identifier100)}}">
-              </div>
-              <div class="post-info">
-                <p class="post-author-name">{{post.author.name}}</p>
-                <div ng-switch="post.postType">
-                  <p class="post-date" ng-switch-when="0">enviou um recado em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
-                  <p class="post-date" ng-switch-when="1">enviou um áudio em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
-                  <p class="post-date" ng-switch-when="2">enviou uma foto em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+          <ul class="post-list vertical wrap" infinite-scroll="$ctrl.loadMorePosts()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.postsState != 'idle'">
+            <li class="post" ng-repeat="post in $ctrl.posts">
+              <div class="header">
+                <div class="picture">
+                  <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(post.author.image.identifier100)}}">
+                </div>
+                <div class="info">
+                  <p class="author">{{post.author.name}}</p>
+                  <div ng-switch="post.postType">
+                    <p class="date" ng-switch-when="0">enviou um recado em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+                    <p class="date" ng-switch-when="1">enviou uma foto em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+                    <p class="date" ng-switch-when="2">enviou um áudio em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+                  </div>
+                  <p class="text">{{post.text}}</p>
+                  <div class="attachment" ng-switch="post.postType" ng-if="post.attachmentIdentifier">
+                    <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(post.attachmentIdentifier)}}" ng-switch-when="1">
+                    <audio ng-src="{{::$ctrl.getFileURL(post.attachmentIdentifier)}}" controls ng-switch-when="2"></audio>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="radio-post-body">
-              <p class="post-text">{{post.text}}</p>
-              <div class="radio-post-attachment" ng-switch="post.postType" ng-if="post.attachmentIdentifier">
-                <img ng-src="{{$ctrl.getImageURL(post.attachmentIdentifier)}}" ng-switch-when="1">
-                <audio ng-src="{{::$ctrl.getFileURL(post.attachmentIdentifier)}}" controls ng-switch-when="2"></audio>
-              </div>
-            </div>
-          </div>
+            </li>
+          </ul>
         </div>
-
-        <div class="radio-section-content-inner" ng-show="$ctrl.tab == 'reviews'">
-
-          <div class="post-composer border-primary">
-            <div class="msg-container">
-              <div class="msg-author">
-                <img src="../../images/avatar.png">
+        <div class="content-inner" ng-show="$ctrl.tab == 'reviews'">
+          <div class="composer" ng-show="$ctrl.isIdentified()">
+            <div class="container">
+              <div class="rating">
+                <span uib-rating 
+                  ng-model="$ctrl.reviewScore" max="5" read-only="false" 
+                  state-on="'fa fa-star'" state-off="'fa fa-star-o'"></span>
               </div>
-              <textarea class="msg-text-area" rows="1" msd-elastic ng-model="$ctrl.teste" placeholder="Mande uma mensagem para a rádio"></textarea>
+              <textarea class="text-area" rows="1" ng-model="$ctrl.msgReview" placeholder="Avalie a rádio"></textarea>
             </div>
-            <div class="msg-attachments">
-              <div class="msg-attachment">
-                <!--<button class="close-button"><i class="fa fa-times"></i></button>
-                <img src="">-->
-              </div>
-            </div>
-            <div class="post-composer-actions">
-              <button class="post-composer-button bg-primary color-primary"><i class="fa fa-file-image-o"></i>&nbsp;&nbsp;Anexar uma foto</button>
-              <button class="post-composer-button bg-primary color-primary"><i class="fa fa-microphone"></i>&nbsp;&nbsp;Anexar um áudio</button>
-              <button class="post-composer-submit-button pull-right">Enviar</button>
+            <div class="actions">
+              <button class="submit-button pull-right" ng-click="$ctrl.sendReview()">Enviar</button>
             </div>
           </div>
-
-          <div class="radio-post" ng-repeat="review in $ctrl.reviews">
-            <div class="radio-post-header">
-              <div class="post-author-picture">
-                <img ng-src="{{$ctrl.getImageURL(review.author.image.identifier100)}}">
+          <ul class="post-list vertical wrap">
+            <li class="post" ng-repeat="review in $ctrl.reviews">                
+              <div class="header">
+                <div class="picture">
+                  <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(review.author.image.identifier100)}}">
+                </div>
+                <div class="info">
+                  <p class="author">{{review.author.name}}</p>
+                  <p class="date">avaliou a rádio em {{review.dateTime | date : 'dd/MM/yyyy'}} às {{review.dateTime | date : 'HH:mm'}}</p>
+                  <p class="text">{{review.text}}</p>
+                </div>
+                <div class="rating">
+                  <span uib-rating 
+                    ng-model="review.score" max="5" read-only="true" 
+                    state-on="'fa fa-star'" state-off="'fa fa-star-o'"></span>
+                </div>
               </div>
-              <div class="post-info">
-                <p class="post-author-name">{{review.author.name}}</p>
-                <p class="post-date">avaliou a rádio em {{review.dateTime | date : 'dd/MM/yyyy'}} às {{review.dateTime | date : 'HH:mm'}}</p>
-              </div>
-            </div>
-            <div class="radio-post-body">
-              <p class="post-text">{{review.text}}</p>
-            </div>
-          </div>
-
+            </li>
+          </ul>
         </div>
       </section>
     </section>
 
     <aside class="radio-aside">
-      <h2 class="radio-section-title color-primary">Contato</h2>
-      <p class="radio-section-text" ng-repeat="address in $ctrl.addresses">
+      <h2 class="title color-primary">Contato</h2>
+      <p class="text" ng-repeat="address in $ctrl.addresses">
         {{address.address.street.name + ', ' + address.address.street.district.city.name + ' - ' + address.address.street.district.city.state.acronym}}
       </p>
-      <p class="radio-section-text" ng-repeat="phone in $ctrl.phones">
+      <p class="text" ng-repeat="phone in $ctrl.phones">
         {{phone.phone.phonenumber}}
       </p>
       <hr class="separator">
-      <h2 class="radio-section-title color-primary mgtp30">Redes Sociais</h2>
-      <a href="{{social.value}}" target="_blank" class="radio-section-social color-primary" ng-repeat="social in $ctrl.socials">
+      <h2 class="title color-primary mgtp30">Redes Sociais</h2>
+      <a href="{{social.value}}" target="_blank" class="social color-primary" ng-repeat="social in $ctrl.socials">
         <i class="fa" ng-class="{
           'fa-facebook-official': social.socialNetwork.value == 'Facebook',
           'fa-twitter': social.socialNetwork.value == 'Twitter',
@@ -148,8 +140,8 @@
         }"></i>
       </a>
       <hr class="separator">
-      <h2 class="radio-section-title color-primary mgtp30">Programação</h2>
-      <ul class="radio-programs-days">
+      <h2 class="title color-primary mgtp30">Programação</h2>
+      <ul class="days">
         <li ng-class="{'color-primary': $ctrl.day == 'day0'}" ng-click="$ctrl.selectDay('day0')">Seg</li>
         <li ng-class="{'color-primary': $ctrl.day == 'day1'}" ng-click="$ctrl.selectDay('day1')">Ter</li>
         <li ng-class="{'color-primary': $ctrl.day == 'day2'}" ng-click="$ctrl.selectDay('day2')">Qua</li>
@@ -158,8 +150,10 @@
         <li ng-class="{'color-primary': $ctrl.day == 'day5'}" ng-click="$ctrl.selectDay('day5')">Sáb</li>
         <li ng-class="{'color-primary': $ctrl.day == 'day6'}" ng-click="$ctrl.selectDay('day6')">Dom</li>
       </ul>
-      <ul class="radio-programs-list">
-        <li class="radio-program" ng-repeat="program in $ctrl.programs | orderBy : 'timeStart'" ng-if="program[$ctrl.day]">{{program.timeStart | limitTo : 5}} - <span class="radio-program-name">{{program.name}}</span></li>
+      <ul class="programs-list">
+        <li class="program" ng-repeat="program in $ctrl.programs | orderBy : 'timeStart'" ng-if="program[$ctrl.day]">
+          {{program.timeStart | limitTo : 5}} - <span class="name">{{program.name}}</span>
+        </li>
       </ul>
     </aside>
   </div>
@@ -197,28 +191,27 @@
       <mp-search-form class="mgtp20"></mp-search-form>
       <h2 class="section-title section-title-small color-primary mgtp40">Qual seu estilo musical preferido?</h2>
       <h2 class="section-title section-title-small color-primary">Gêneros musicais</h2>
-      <slick settings="$ctrl.configSlick">
-        <div class="genre-container" ng-repeat="genre in $ctrl.genres track by genre.id">
-            <div class="genre-picture-container" ng-switch="genre.id" ng-click="$ctrl.selectGenre(genre.id)">
-              <img class="genre-picture" src="../../images/anos-60-90.jpg" ng-switch-when="1">
-              <img class="genre-picture" src="../../images/catolica.jpg" ng-switch-when="2">
-              <img class="genre-picture" src="../../images/classica.jpg" ng-switch-when="3">
-              <img class="genre-picture" src="../../images/country.jpg" ng-switch-when="4">
-              <img class="genre-picture" src="../../images/edm.jpg" ng-switch-when="5">
-              <img class="genre-picture" src="../../images/gospel.jpg" ng-switch-when="6">
-              <img class="genre-picture" src="../../images/esporte.jpg" ng-switch-when="7">
-              <img class="genre-picture" src="../../images/mpb.jpg" ng-switch-when="8">
-              <img class="genre-picture" src="../../images/popular.jpg" ng-switch-when="9">
-              <img class="genre-picture" src="../../images/pop-internacional.jpg" ng-switch-when="10">
-              <img class="genre-picture" src="../../images/rock.jpg" ng-switch-when="11">
-              <img class="genre-picture" src="../../images/samba.jpg" ng-switch-when="12">
-              <img class="genre-picture" src="../../images/sertanejo.jpg" ng-switch-when="13">
-            </div>
-            <h3 class="genre-title color-primary" ng-click="$ctrl.selectGenre(genre.id)">{{genre.name}}</h3>
+      <div class="genres">
+        <div class="container" ng-repeat="genre in $ctrl.genres track by genre.id">
+          <div class="picture" ng-switch="genre.musicGenre.id" ng-click="$ctrl.selectGenre(genre.id)">
+            <img src="../../images/anos-60-90.jpg" ng-switch-when="1">
+            <img src="../../images/catolica.jpg" ng-switch-when="2">
+            <img src="../../images/classica.jpg" ng-switch-when="3">
+            <img src="../../images/country.jpg" ng-switch-when="4">
+            <img src="../../images/edm.jpg" ng-switch-when="5">
+            <img src="../../images/gospel.jpg" ng-switch-when="6">
+            <img src="../../images/esporte.jpg" ng-switch-when="7">
+            <img src="../../images/mpb.jpg" ng-switch-when="8">
+            <img src="../../images/popular.jpg" ng-switch-when="9">
+            <img src="../../images/pop-internacional.jpg" ng-switch-when="10">
+            <img src="../../images/rock.jpg" ng-switch-when="11">
+            <img src="../../images/samba.jpg" ng-switch-when="12">
+            <img src="../../images/sertanejo.jpg" ng-switch-when="13">
           </div>
+          <h3 class="title color-primary">{{genre.musicGenre.name}}</h3>
         </div>
-      </slick>
-      <button class="outline-button border-primary color-primary">Ver todos</button>
+      </div>
+      <button class="outline-button border-primary color-primary" ng-click="$ctrl.viewAllGenres()">Ver todos</button>
     </div>
   </div>
 </div>
