@@ -154,7 +154,7 @@
       padding: 0 15px 15px 0;
       overflow-x: hidden;
       overflow-y: scroll;
-      height: 385px;
+      height: 505px;
       
       .composer {
         display: inline-block;
@@ -196,6 +196,14 @@
         .submit-button {
           padding: 8px 18px;
         }
+        .file input {
+          border: solid 1px #16a5c9;
+          border-radius: 0px;
+          padding: 15px;
+          margin-top: 10px;
+          font-size: 15px;
+          width: 100%;
+        }
         .rating {
           display: inline-block;
           .fa {
@@ -210,7 +218,6 @@
         .post {
           display: inline-block;
           border: solid 1px #e2e6ea;
-          border-bottom: solid 2px #c4ccd4;
           box-shadow: 8px 8px 10px #ccc; 
           width: 100%;
           margin-top: 10px;
@@ -219,7 +226,7 @@
             width: 100%;
             padding: 10px;
             .picture {
-              display: inline-block;
+              float: left;
               width: 64px;
               height: 64px;
               img {
@@ -242,7 +249,6 @@
               }
             }
             .rating {
-              display: inline-block;
               margin-right: 20px;
               float: right;
               .fa {
@@ -257,7 +263,7 @@
             .attachment {
               margin-top: 10px;      
               img {
-                max-width: 100%;
+                max-width: 580px;
               }
             }     
           }     
@@ -329,6 +335,7 @@
   background: #fff;
   border-radius: 5px;
   box-sizing: border-box;
+  box-shadow: 6px 6px 10px rgba(0, 30, 84, .3);
   overflow-x: hidden;
   overflow-y: scroll;
   height: 385px;
@@ -496,6 +503,7 @@
         height: 185px;
         width: 185px;
         border-radius: 50%;
+        box-shadow: 6px 6px 10px rgba(0, 30, 84, .3);
         background: linear-gradient(to bottom, #bccae2 0%,#00afd3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         
         img {

@@ -1,4 +1,4 @@
-export default function RadioController($state, $util, $user, $radio, $profile, $api, $modal, $anchorScroll, $timeout) {
+export default function RadioController($state, $util, $user, $radio, $profile, $api, $modal, $anchorScroll, Upload, $timeout) {
   "ngInject";
 
   const $ctrl = this;
@@ -22,6 +22,9 @@ export default function RadioController($state, $util, $user, $radio, $profile, 
   $ctrl.reviewsState = 'idle';
   $ctrl.similarState = 'idle';
 
+  $ctrl.picture = { valid: null, invalid: null, progress: 0 };
+  $ctrl.audio = { valid: null, invalid: null, progress: 0 };
+
   $radio.radio.get({ id: radioId }).$promise.then(response => { $ctrl.radio = response.data; $ctrl.plays.push($ctrl.radio) });
   $radio.score.get({ id: radioId }).$promise.then(response => $ctrl.score = response.data.toFixed(1));
   $radio.phones.get({ id: radioId }).$promise.then(response => $ctrl.phones = response.data);
@@ -31,33 +34,106 @@ export default function RadioController($state, $util, $user, $radio, $profile, 
   $radio.reviews.get({ id: radioId }).$promise.then(response => $ctrl.reviews = response.data);
   $radio.genres.get({ id: radioId }).$promise.then(response => $ctrl.genres = response.data);
 
-  let clear = () => {
+  let clearInfo = () => {
     $ctrl.info = undefined;
     $ctrl.error = undefined;
   }
+  let clear = () => {
+    $ctrl.picture = { valid: null, invalid: null, progress: 0 };
+    $ctrl.audio = { valid: null, invalid: null, progress: 0 };
+    $ctrl.msgPost = undefined;
+    $ctrl.msgReview = undefined;
+    $ctrl.anexarAudio = false;
+    $ctrl.anexarFoto = false;
+  }
 
-  $ctrl.sendPost = () => {
-    clear();
+  $ctrl.anexarFoto = false;
+  $ctrl.toogleAnexarFoto = () => {
+    $ctrl.anexarFoto = !$ctrl.anexarFoto;
+    $ctrl.anexarAudio = false;
+  }
+  
+  $ctrl.anexarAudio = false;
+  $ctrl.toogleAnexarAudio = () => {
+    $ctrl.anexarAudio = !$ctrl.anexarAudio;
+    $ctrl.anexarFoto = false;
+  }
+
+  $ctrl.sendPost = () => {    
+    if ($ctrl.picture.valid) {
+      $ctrl.state = 'uploading';
+      let params = {
+        url: `/api/app/file/upload`,
+        data: {
+          attachment: $ctrl.picture.valid,
+          action: 'upload'
+        }
+      };
+      Upload.upload(params).then(
+        response => {
+          $ctrl.state = 'finishing';
+          sendPost(1, response.data.data);
+        },
+        response => {
+          $ctrl.state = 'idle';
+          $ctrl.error = response;
+        },
+        event => $ctrl.picture.progress = parseInt(100.0 * event.loaded / event.total)
+      );
+    } 
+    if ($ctrl.audio.valid) {
+      $ctrl.state = 'uploading';
+      let params = {
+        url: `/api/app/file/upload`,
+        data: {
+          attachment: $ctrl.audio.valid,
+          action: 'upload'
+        }
+      };
+      Upload.upload(params).then(
+        response => {
+          let audio = response.data.data;
+          $ctrl.state = 'finishing';
+          sendPost(2, audio);
+        },
+        response => {
+          $ctrl.state = 'idle';
+          console.log(response)
+        },
+        event => $ctrl.audio.progress = parseInt(100.0 * event.loaded / event.total)
+      );
+    } else {
+      sendPost(0);
+    }
+  }
+
+  let sendPost = (postType, attachmentIdentifier) => {    
+    clearInfo();
     if ($ctrl.isIdentified()) {
       let
         data = {
           text: $ctrl.msgPost,
-          postType: 0,
+          postType: postType,
           dateTime: Date.now()
         }
+      if (attachmentIdentifier) {
+        data.attachmentIdentifier = attachmentIdentifier;
+      }
       $radio.wall.post({ id: radioId }, data).$promise
         .then(response => {
           $ctrl.info = `Obrigado ${$ctrl.profile().name}! Seu cometário será exibido após moderação da Rádio.`;
-          $timeout(clear, sleep);
+          $timeout(clearInfo, sleep);
+          clear();
         })
         .catch(response => {
           $ctrl.error = response.data.error.message;
-          $timeout(clear, sleep);
+          $timeout(clearInfo, sleep);
         });
     }
   }
 
   $ctrl.sendReview = () => {
+    clearInfo();
     if ($ctrl.isIdentified()) {
       let
         data = {
@@ -68,11 +144,12 @@ export default function RadioController($state, $util, $user, $radio, $profile, 
       $radio.reviews.post({ id: radioId }, data).$promise
         .then(response => {
           $ctrl.info = `Obrigado ${$ctrl.profile().name}! Sua avaliação será exibida após moderação da Rádio.`;
-          $timeout(clear, sleep);
+          $timeout(clearInfo, sleep);
+          clear();
         })
         .catch(response => {
           $ctrl.error = response.data.error.message
-          $timeout(clear, sleep);
+          $timeout(clearInfo, sleep);
         });
     }
   }

@@ -41,6 +41,9 @@
           <li class="nav-item color-primary" ng-class="{active: $ctrl.tab == 'reviews'}" ng-click="$ctrl.selectTab('reviews')">Avalia&ccedil;&otilde;es</li>
         </ul>
       </nav>
+      <div class="form-group alert alert-warning" ng-show="!$ctrl.isIdentified()">
+        <strong>É preciso fazer login para mandar uma mensagem.</strong>
+      </div>
       <div class="form-group alert alert-info" ng-show="$ctrl.info">
         <strong>{{$ctrl.info}}</strong>
       </div>
@@ -57,10 +60,29 @@
               <textarea class="text-area" rows="1" ng-model="$ctrl.msgPost" placeholder="Mande uma mensagem para a rádio"></textarea>
             </div>
             <div class="actions">
-              <button class="button bg-primary color-primary"><i class="fa fa-file-image-o"></i>&nbsp;&nbsp;Anexar uma foto</button>
-              <button class="button bg-primary color-primary"><i class="fa fa-microphone"></i>&nbsp;&nbsp;Anexar um áudio</button>
+              <button class="button bg-primary color-primary" ng-click="$ctrl.toogleAnexarFoto()"><i class="fa fa-file-image-o"></i>&nbsp;&nbsp;Anexar uma foto</button>
+              <button class="button bg-primary color-primary" ng-click="$ctrl.toogleAnexarAudio()"><i class="fa fa-microphone"></i>&nbsp;&nbsp;Anexar um áudio</button>
               <button class="submit-button pull-right" ng-click="$ctrl.sendPost()">Enviar</button>
             </div>
+            <div class="file" ng-show="$ctrl.anexarFoto">
+              <input 
+                id="picture" 
+                class="form-control" type="file" name="picture" accept="image/jpg,image/jpeg,image/png,image/gif" 
+                ng-model="$ctrl.picture.valid" ngf-select ngf-model-invalid="$ctrl.picture.invalid"
+                ngf-resize="{quality: 0.6, type: 'image/jpeg'}" ngf-pattern="'.jpg,.jpeg,.png,.gif'" />
+              <img style="width: auto; max-height: 120px; margin: 5px" ngf-thumbnail="$ctrl.picture.valid" ng-show="$ctrl.picture.valid">
+            </div>
+            <div class="file" ng-show="$ctrl.anexarAudio">
+              <input 
+                id="audio" 
+                class="form-control" type="file" name="audio" accept="audio/*" 
+                ng-model="$ctrl.audio.valid" ngf-select ngf-model-invalid="$ctrl.audio.invalid"
+                ngf-resize="{quality: 0.6, type: 'audio/*'}" ngf-pattern="'.mp3'" />
+              <img style="width: auto; max-height: 120px; margin: 5px" ngf-thumbnail="$ctrl.audio.valid" ng-show="$ctrl.audio.valid">
+            </div>
+          </div>
+          <div class="form-group alert alert-info" ng-show="!$ctrl.posts || $ctrl.posts.length == 0">
+            <strong>Nenhuma mensagem no mural.</strong>
           </div>
           <ul class="post-list vertical wrap" infinite-scroll="$ctrl.loadMorePosts()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.postsState != 'idle'">
             <li class="post" ng-repeat="post in $ctrl.posts">
@@ -98,6 +120,9 @@
             <div class="actions">
               <button class="submit-button pull-right" ng-click="$ctrl.sendReview()">Enviar</button>
             </div>
+          </div>
+          <div class="form-group alert alert-info" ng-show="!$ctrl.reviews || $ctrl.reviews.length == 0">
+            <strong>Nenhuma avaliação para a rádio.</strong>
           </div>
           <ul class="post-list vertical wrap">
             <li class="post" ng-repeat="review in $ctrl.reviews">                
