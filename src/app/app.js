@@ -5,6 +5,7 @@ import ngInfiniteScroll from 'ng-infinite-scroll';
 import ngBootstrap from 'angular-ui-bootstrap';
 import ngFileUpload from 'ng-file-upload';
 import ngMoment from 'angular-moment';
+import uiMask from 'angular-ui-mask';
 import msdElastic from 'angular-elastic';
 import * as firebase from "firebase";
 import pages from './pages/pages';
@@ -24,6 +25,7 @@ angular.module('app', [
   ngBootstrap,
   ngFileUpload,
   ngMoment,
+  uiMask,
   msdElastic,
   pages,
   components,

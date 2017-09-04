@@ -1,0 +1,15 @@
+<h2 class="title" ng-hide="$ctrl.persons.length">Nenhuma pessoa encontrada</h2>
+<h2 class="title" ng-show="$ctrl.persons.length">{{$ctrl.total}} pessoas encontradas</h2>
+<div class="container" ng-show="$ctrl.persons.length">
+  <ul class="horizontal wrap" infinite-scroll="$ctrl.loadMore()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.state != 'idle'">
+    <li class="person col-3" ng-repeat="person in $ctrl.persons">
+      <div class="picture clicked">
+        <img class="picture" src="../../images/avatar.png" ng-click="$ctrl.goToProfile(person.id)" ng-src="{{$ctrl.getImageURL(person.image.identifier100)}}">
+      </div>
+      <div class="content">
+        <h3 class="name clicked" ng-click="$ctrl.goToProfile(person.id)">{{person.name}}</h3>
+        <p class="location">{{person.shortAddress}}</p>
+      </div>
+    </li>
+  </ul>
+</div>

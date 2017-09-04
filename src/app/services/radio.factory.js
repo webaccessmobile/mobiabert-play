@@ -10,6 +10,7 @@ let RadioFactory = function ($resource) {
     programs: $resource(`/api/app/station/:id/program`, null),
     posts: $resource(`/api/app/station/:id/posts`, null, {'post': {method:'PUT'}}),
     wall: $resource(`/api/stationunit/:id/wall`, null, {'post': {method:'PUT'}}),
+    comments: $resource(`/api/wall/:id/comments`, null),
     reviews: $resource(`/api/stationunit/:id/review`, null, {'post': {method:'POST'}}),
     similar: $resource(`/api/app/station/:id/similar`, null),
     genres: $resource(`/api/stationunit/:id/genre`, null),

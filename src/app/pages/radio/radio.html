@@ -42,14 +42,10 @@
         </ul>
       </nav>
       <div class="form-group alert alert-warning" ng-show="!$ctrl.isIdentified()">
-        <strong>É preciso fazer login para mandar uma mensagem.</strong>
+        É preciso fazer login para mandar uma mensagem.
       </div>
-      <div class="form-group alert alert-info" ng-show="$ctrl.info">
-        <strong>{{$ctrl.info}}</strong>
-      </div>
-      <div class="form-group alert alert-error" ng-show="$ctrl.error">
-        <strong>{{$ctrl.error}}</strong>
-      </div>
+      <div class="form-group alert alert-info" ng-show="$ctrl.info">{{$ctrl.info}}</div>
+      <div class="form-group alert alert-error" ng-show="$ctrl.error">{{$ctrl.error}}</div>
       <section class="content">
         <div class="content-inner" ng-show="$ctrl.tab == 'wall'">
           <div class="composer" ng-show="$ctrl.isIdentified()">
@@ -82,7 +78,7 @@
             </div>
           </div>
           <div class="form-group alert alert-info" ng-show="!$ctrl.posts || $ctrl.posts.length == 0">
-            <strong>Nenhuma mensagem no mural.</strong>
+            Nenhuma mensagem no mural.
           </div>
           <ul class="post-list vertical wrap" infinite-scroll="$ctrl.loadMorePosts()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.postsState != 'idle'">
             <li class="post" ng-repeat="post in $ctrl.posts">
@@ -100,10 +96,28 @@
                   <p class="text">{{post.text}}</p>
                   <div class="attachment" ng-switch="post.postType" ng-if="post.attachmentIdentifier">
                     <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(post.attachmentIdentifier)}}" ng-switch-when="1">
-                    <audio ng-src="{{::$ctrl.getFileURL(post.attachmentIdentifier)}}" controls ng-switch-when="2"></audio>
+                    <audio 
+                      controls controlsList="nofullscreen nodownload noremote"
+                      ng-src="{{::$ctrl.getFileURL(post.attachmentIdentifier)}}" ng-switch-when="2"></audio>
                   </div>
                 </div>
               </div>
+              <ul class="post-list vertical wrap">
+                <li class="comment" ng-repeat="comment in post.comments">
+                  <div class="header">
+                    <div class="picture">
+                      <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(comment.author.image.identifier100)}}">
+                    </div>
+                    <div class="info">
+                      <p class="author">{{comment.author.name}}</p>
+                      <div>
+                        <p class="date">enviou uma resposta em {{comment.dateTime | date : 'dd/MM/yyyy'}} às {{comment.dateTime | date : 'HH:mm'}}</p>
+                      </div>
+                      <p class="text">{{comment.text}}</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
             </li>
           </ul>
         </div>
@@ -122,7 +136,7 @@
             </div>
           </div>
           <div class="form-group alert alert-info" ng-show="!$ctrl.reviews || $ctrl.reviews.length == 0">
-            <strong>Nenhuma avaliação para a rádio.</strong>
+            Nenhuma avaliação para a rádio.
           </div>
           <ul class="post-list vertical wrap">
             <li class="post" ng-repeat="review in $ctrl.reviews">                
@@ -218,7 +232,7 @@
       <h2 class="section-title section-title-small color-primary">Gêneros musicais</h2>
       <div class="genres">
         <div class="container" ng-repeat="genre in $ctrl.genres track by genre.id">
-          <div class="picture" ng-switch="genre.musicGenre.id" ng-click="$ctrl.selectGenre(genre.id)">
+          <div class="picture" ng-switch="genre.musicGenre.id" ng-click="$ctrl.selectGenre(genre.musicGenre.id)">
             <img src="../../images/anos-60-90.jpg" ng-switch-when="1">
             <img src="../../images/catolica.jpg" ng-switch-when="2">
             <img src="../../images/classica.jpg" ng-switch-when="3">

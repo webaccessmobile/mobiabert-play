@@ -35,12 +35,12 @@ function LoginController($scope, $auth, $user, $state, $modal, $profile) {
         result.user.getIdToken(false).then(
           token => {
             $auth.authorize(token).then(
-              response => {$ctrl.login(response.data.data); $scope.loading = true;},
-                 error => {$ctrl.error = error.data.error.message; $scope.loading = true;}
+              response => {$ctrl.login(response.data.data); $scope.loading = false;},
+                 error => {$ctrl.error = error.data.error.message; $scope.loading = false;}
             );
         })
       })
-      .catch(error => {$ctrl.error = error.message; $scope.loading = true;});
+      .catch(error => {$ctrl.error = error.message; $scope.loading = false;});
   }
   
   var facebookAuthProvider = new firebase.auth.FacebookAuthProvider();

@@ -1,4 +1,4 @@
-let ProfileFactory = function ($http, $user) {
+let ProfileFactory = function ($http, $user, $resource) {
   "ngInject";
 
   let favoritestation = (method, station) => { 
@@ -42,7 +42,9 @@ let ProfileFactory = function ($http, $user) {
     },    
     unfavoritestation : (station) => { 
       favoritestation("DELETE", station);
-    }
+    },
+    posts : $resource(`/api/app/user/:id/posts`, null),
+    reviews : $resource(`/api/app/user/:id/reviews`, null)
   };
 };
 

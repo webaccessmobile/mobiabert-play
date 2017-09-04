@@ -4,6 +4,7 @@
     <div class="nav-items">
       <div class="nav-item" ng-show="!$ctrl.isIdentified()">
         <a ui-sref="about">Sobre o MobiAbert</a>
+        <a ng-click="$ctrl.register()">Registre-se</a>
         <button ng-click="$ctrl.login()">Entrar <i class="fa fa-sign-in"></i></button>
       </div>
       <div class="nav-item" ng-show="$ctrl.isIdentified()">
@@ -15,6 +16,9 @@
             <ul>
               <li>
                 <a ui-sref="profile" ng-click="$ctrl.goProfile()"><i class="fa fa-user"></i>  Perfil</a>
+              </li>
+              <li>
+                <a ui-sref="user" ng-click="$ctrl.goEdit()"><i class="fa fa-edit"></i>  Editar</a>
               </li>
               <li>
                 <a ui-sref="home" ng-click="$ctrl.logout()"><i class="fa fa-sign-out"></i>  Sair</a>

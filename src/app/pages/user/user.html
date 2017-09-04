@@ -1,0 +1,79 @@
+<div class="background-user">
+  <div class="page-cover">
+    <img src="../../images/cover.png">
+  </div>
+  <div class="page-content user">
+    <div class="picture">
+      <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL($ctrl.user.image.identifier100)}}">
+      <div class="file">
+        <input 
+          id="picture" 
+          class="form-control" type="file" name="picture" accept="image/jpeg,image/png,image/gif" 
+          ng-model="$ctrl.picture.valid" ngf-select ngf-model-invalid="$ctrl.picture.invalid" 
+          ngf-max-size="500KB" ngf-dimensions="$width > 100 && $height > 100"
+          ngf-resize="{quality: 0.6, type: 'image/jpeg'}" ngf-pattern="'.jpg,.jpeg,.png'"/>
+        <span class="form-group alert alert-warning" ng-show="form.picture.$error.pattern">Deve ser JPG ou PNG.</span>
+        <span class="form-group alert alert-warning" ng-show="form.picture.$error.maxSize">Ultrapassa o limite de 500 KB</span>
+        <span class="form-group alert alert-warning" ng-show="form.picture.$error.dimensions">Deve ter tamanho mínimo de 100 x 100px</span>
+        <img ngf-thumbnail="$ctrl.picture.valid" ng-show="$ctrl.picture.valid">
+      </div>
+    </div>
+    <form ng-submit="$ctrl.save()" autocomplete="on">
+      <div class="form-group with-label">
+        <label>Nome:</label>
+        <input type="text" class="form-control border-primary" required ng-model="$ctrl.user.name">
+      </div>
+      <div class="form-group with-label">
+        <label>E-mail:</label>
+        <input type="text" class="form-control border-primary" required ng-model="$ctrl.user.email">
+      </div>
+      <div class="form-group with-label col-2">
+        <label>Estado:</label>        
+        <select class="form-control border-primary" ng-model="$ctrl.state" ng-change="$ctrl.loadCitys()">
+          <option ng-repeat="option in $ctrl.states" ng-value="option.value">{{option.label}}</option>
+        </select>
+      </div>
+      <div class="form-group with-label col-2">
+        <label>Cidade:</label>       
+        <select class="form-control border-primary" ng-model="$ctrl.city">
+          <option ng-repeat="option in $ctrl.citys" ng-value="option.value">{{option.label}}</option>
+        </select>
+      </div>
+      <div class="form-group with-label col-4">
+        <label>Data de Nascimento:</label>
+        <input type="date" class="form-control border-primary" style="height: 49px;" ng-model="$ctrl.user.birthdate">
+      </div>
+      <div class="form-group with-label col-4">
+        <label>Sexo:</label>
+        <div class="col-sm-4">
+          <select class="form-control border-primary" ng-model="$ctrl.user.genre">
+            <option></option>
+            <option value="f">Feminino</option>
+            <option value="m">Masculino</option>
+          </select>
+        </div>
+      </div>
+
+      <hr class="separator">
+      <div class="form-group with-label col-4">
+        <label>Senha:</label>
+        <input type="{{$ctrl.showPassword ? 'text' : 'password'}}" class="form-control border-primary" ng-model="$ctrl.user.password">
+      </div>
+      <div class="form-group with-label col-4">
+        <label>Confirme a senha:</label>
+        <input type="{{$ctrl.showPassword ? 'text' : 'password'}}" class="form-control border-primary" ng-model="$ctrl.confirmPassword">
+      </div>
+      <div class="col-4" style="display: inline-flex;">
+        <input type="checkbox" class="form-control" ng-model="$ctrl.showPassword" style="height: 20px; width: 20px; margin: 0 10px 0 10px">
+        <label>Mostrar senha</label>
+      </div>
+
+      <hr class="separator">
+      <div class="form-group alert alert-info" ng-show="$ctrl.info">{{$ctrl.info}}</div>
+      <div class="form-group alert alert-error" ng-show="$ctrl.error">{{$ctrl.error}}</div>
+      <div class="form-group">
+        <button class="form-button submit-button" type="submit"><i class="fa fa-send"></i>&nbsp;&nbsp;Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>

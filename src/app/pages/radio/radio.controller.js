@@ -162,7 +162,15 @@ export default function RadioController($state, $util, $user, $radio, $profile, 
       .$promise.then(response => {
         if (response.data.records && response.data.records.length > 0) {
           if (!$ctrl.posts) $ctrl.posts = [];
-          $ctrl.posts = $ctrl.posts.concat(response.data.records);
+          var temp = response.data.records;
+          for (var p in temp) {
+            let post = temp[p];
+            $radio.comments.get({ id: post.id, pageSize: 10, pageNumber: 0 })
+              .$promise.then(response => {
+                post.comments = response.data.records;
+              });
+          }
+          $ctrl.posts = $ctrl.posts.concat(temp);
           $ctrl.postsState = 'idle';
           postsPage++;
         } else {
@@ -260,7 +268,7 @@ export default function RadioController($state, $util, $user, $radio, $profile, 
   };
 
   $ctrl.selectGenre = id => {
-    $radios.radiosByGenres.get({ id: radioId, pageNumber: 0, pageSize: 12 })
+    $radio.radiosByGenres.get({ id: id, pageNumber: 0, pageSize: 12 })
       .$promise.then(result => {
         $modal.open(`<mp-search-results radios="radios" type="genre" term="${id}" total="${result.data.totalRecords}"></mp-search-results>`, { radios: result.data.records });
       });

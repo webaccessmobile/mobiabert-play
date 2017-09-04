@@ -1,0 +1,50 @@
+mp-user-results {
+  width: 480px;
+  display: block;
+  box-sizing: border-box;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  position: relative;
+
+  .title {
+    font-family: 'Dosis', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    text-transform: uppercase;
+    text-align: center;
+    color: #333;
+  }
+
+  .container {
+    max-height: 480px;
+    overflow-y: scroll;
+    margin-top: 20px;
+  }
+
+  .person {
+    display: inline-block;
+    margin: 12px;
+    .picture {
+      border-radius: 50%;
+      float: left;
+      img {
+        width: 60px;
+        height: 100%;
+      }
+    }
+    .content {
+      margin: 0 0 0 80px;
+      padding: 20px 0;
+      .name {
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 1.2em
+      }
+      .location {
+        font-weight: 300;
+        font-size: 14px;
+        margin-top: 5px
+      }
+    }
+  }
+}

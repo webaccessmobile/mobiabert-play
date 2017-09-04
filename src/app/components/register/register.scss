@@ -1,0 +1,111 @@
+.register {
+  width: 300px;
+  font-family: 'Ubuntu', sans-serif;
+  font-size: 16px;
+  margin: 5px 0 0;
+
+  .registerBtn {
+    box-sizing: border-box;
+    position: relative;
+    margin: 0.2em;
+    padding: 0 15px 0 46px;
+    border: none;
+    width: 50%;
+    line-height: 34px;
+    white-space: nowrap;
+    border-radius: 0.2em;
+    font-size: 16px;
+    color: #FFF;
+    box-shadow: 2px 2px 10px #888;
+  }
+  .registerBtn:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 34px;
+    height: 100%;
+  }
+  .registerBtn:focus {
+    outline: none;
+  }
+  .registerBtn:active {
+    box-shadow: inset 0 0 0 32px rgba(0,0,0,0.1);
+  }    
+
+  /* Submit */
+  .registerBtn--submit {
+    background: #a5d549;
+    width: 100% !important;
+  }
+  .registerBtn--submit:before {
+    border-right: rgba(116, 151, 50, 0.60) 1px solid;
+  }
+  .registerBtn--submit:hover,
+  .registerBtn--submit:focus {
+    background: #B4E751;
+  }
+
+  .form-control {
+    border-width: 2px;
+    border-style: solid;
+  }
+
+  .form-group {
+
+    label {
+      color: #16a5c9;
+      font-weight: bold;
+      line-height: 0.6em;
+    }
+  
+    &.with-label {
+      color: #bfbfbf;
+    }
+  }
+
+  input.form-control {
+    box-shadow: 2px 2px 10px rgba(22,165,201,0.6);
+    color: #373737;
+    line-height: 0.6em;
+    text-indent: 14px;
+  }
+
+  .fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+  }
+
+  .form-fa-feedback {
+    line-height: 40px;
+    position: absolute;
+    margin: 5px 10px;
+  }
+
+  .submit-button {
+    height: 45px;
+    box-shadow: 2px 2px 10px #888;
+  }
+  
+  .div-loader {  
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:1000;
+    background-color:rgba(255,255,255,0.25);
+    
+    img {
+      position: absolute;
+      left: 50%;
+      top: 25%;
+      width: 120px;
+      height: 120px;
+      margin-left: -60px;
+      margin-top: -60px;
+      display: block;     
+    }
+  }
+}

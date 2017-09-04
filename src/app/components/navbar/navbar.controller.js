@@ -11,7 +11,8 @@ export default function NavbarController($user, $util, $state, $modal, $auth) {
     $auth.reset();
     $user.reset();
   };
-
-  $ctrl.goProfile = id => $state.go('profile', {id: $ctrl.profile().id});
+  $ctrl.register = () => $modal.open(`<mp-register></mp-register>`);
+  $ctrl.goEdit = () => $state.go('user');
+  $ctrl.goProfile = () => $state.go('profile', {id: $ctrl.profile().id});
 
 }

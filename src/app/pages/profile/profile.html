@@ -1,9 +1,20 @@
 <div class="page-cover">
+  <div class="search">
+    <form class="form-horizontal" ng-submit="$ctrl.pesquisar($ctrl.term)">
+      <div class="form-group with-icon flex-grow-5">
+        <i class="fa fa-search"></i>
+        <input class="form-control" ng-model="$ctrl.term" type="text" placeholder="Pesquisar perfil"/>
+      </div>
+      <div class="form-group flex-grow-1">
+        <button class="form-button submit-button" type="submit">Buscar</button>
+      </div>
+    </form>
+  </div>
   <img src="../../images/cover.png">
 </div>
 
 <div class="page-content">
-  <div class="profile">  
+  <div class="profile">
     <div class="info">
       <div class="picture-container">
         <img class="picture" src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL($ctrl.usuario.image.identifier100)}}">
@@ -11,6 +22,8 @@
       <div class="info-container">
         <h1 class="name color-primary">{{$ctrl.usuario.name}}</h1>
         <p class="location">{{$ctrl.usuario.city.name}}</p>
+        <button class="follow-button" ng-click="$ctrl.follow()" ng-if="$ctrl.isIdentified() && !$ctrl.isProfile" ng-show="$ctrl.usuario.following">Seguindo</button>
+        <button class="follow-button" ng-click="$ctrl.follow()" ng-if="$ctrl.isIdentified() && !$ctrl.isProfile" ng-show="!$ctrl.usuario.following">Seguir</button>
       </div>
     </div>
     <div class="follow">
@@ -19,8 +32,8 @@
         <div class="box with-icon">
           <label><i class="fa fa-search" aria-hidden="true"></i></label>
           <input class="search" type="text" ng-model="searchfollower" placeholder="Pesquisar">
-          <ul infinite-scroll="$ctrl.loadMoreFollowers()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.followersState != 'idle'">
-            <li class="item" ng-repeat="follower in $ctrl.followers | filter:searchfollower" ng-click="$ctrl.goToProfile(follower.person.id)">
+          <ul class="vertical wrap" infinite-scroll="$ctrl.loadMoreFollowers()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.followersState != 'idle'">
+            <li class="item clicked" ng-repeat="follower in $ctrl.followers | filter:searchfollower" ng-click="$ctrl.goToProfile(follower.person.id)">
               <img class="picture" src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(follower.person.image.identifier100)}}">
               <span class="name">{{follower.person.name}}</span>
             </li>
@@ -32,8 +45,8 @@
         <div class="box">
           <label><i class="fa fa-search" aria-hidden="true"></i></label>
           <input class="search" type="text" ng-model="searchfollowing" placeholder="Pesquisar" />
-          <ul infinite-scroll="$ctrl.loadMoreFollowing()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.followingState != 'idle'">
-            <li class="item" ng-repeat="followed in $ctrl.following | filter:searchfollowing" ng-click="$ctrl.goToProfile(followed.person.id)">
+          <ul class="vertical wrap" infinite-scroll="$ctrl.loadMoreFollowing()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.followingState != 'idle'">
+            <li class="item clicked" ng-repeat="followed in $ctrl.following | filter:searchfollowing" ng-click="$ctrl.goToProfile(followed.person.id)">
               <img class="picture" src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(followed.person.image.identifier100)}}">
               <span class="name">{{followed.person.name}}</span>
             </li>
@@ -42,8 +55,89 @@
       </div>
     </div>
   </div>
+  <div class="page-section">
+    <section class="mural">
+      <nav class="tabs">
+        <ul class="nav">
+          <li class="nav-item color-primary" ng-class="{active: $ctrl.tab == 'wall'}" ng-click="$ctrl.selectTab('wall')">Mural</li>
+          <li class="nav-item color-primary" ng-class="{active: $ctrl.tab == 'reviews'}" ng-click="$ctrl.selectTab('reviews')">Avalia&ccedil;&otilde;es</li>
+        </ul>
+      </nav>
+      <section class="content">
+        <div class="content-inner" ng-show="$ctrl.tab == 'wall'">
+          <div class="form-group alert alert-info" ng-show="!$ctrl.posts || $ctrl.posts.length == 0">
+            Nenhum comentário.
+          </div>
+          <ul class="post-list vertical wrap" infinite-scroll="$ctrl.loadMorePosts()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.postsState != 'idle'">
+            <li class="post" ng-repeat="post in $ctrl.posts">
+              <div class="header">
+                <div class="picture clicked" ng-click="$ctrl.goToRadio(post.stationUnit.id)">
+                  <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(post.stationUnit.image.identifier100)}}">
+                </div>
+                <div class="info">
+                  <p class="author clicked" ng-click="$ctrl.goToRadio(post.stationUnit.id)">{{post.stationUnit.name}}</p>
+                  <p class="date">{{post.shortAddress}}</p>
+                  <div ng-switch="post.postType">
+                    <p class="date" ng-switch-when="0">recado enviado em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+                    <p class="date" ng-switch-when="1">foto enviada em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+                    <p class="date" ng-switch-when="2">áudio enviado em {{post.dateTime | date : 'dd/MM/yyyy'}} às {{post.dateTime | date : 'HH:mm'}}</p>
+                  </div>
+                  <p class="text">{{post.text}}</p>
+                  <div class="attachment" ng-switch="post.postType" ng-if="post.attachmentIdentifier">
+                    <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(post.attachmentIdentifier)}}" ng-switch-when="1">
+                    <audio controls controlsList="nofullscreen nodownload noremote" ng-src="{{::$ctrl.getFileURL(post.attachmentIdentifier)}}"
+                      ng-switch-when="2"></audio>
+                  </div>
+                </div>
+              </div>
+              <ul class="post-list vertical wrap">
+                <li class="comment" ng-repeat="comment in post.comments">
+                  <div class="header">
+                    <div class="picture">
+                      <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(comment.author.image.identifier100)}}">
+                    </div>
+                    <div class="info">
+                      <p class="author">{{comment.author.name}}</p>
+                      <div>
+                        <p class="date">enviou uma resposta em {{comment.dateTime | date : 'dd/MM/yyyy'}} às {{comment.dateTime | date :
+                          'HH:mm'}}</p>
+                      </div>
+                      <p class="text">{{comment.text}}</p>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div class="content-inner" ng-show="$ctrl.tab == 'reviews'">
+          <div class="form-group alert alert-info" ng-show="!$ctrl.reviews || $ctrl.reviews.length == 0">
+            Nenhuma avaliação para a rádio.
+          </div>
+          <ul class="post-list vertical wrap">
+            <li class="post" ng-repeat="review in $ctrl.reviews">
+              <div class="header">
+                <div class="picture clicked" ng-click="$ctrl.goToRadio(review.stationUnit.id)">
+                  <img src="../../images/avatar.png" ng-src="{{$ctrl.getImageURL(review.stationUnit.image.identifier100)}}">
+                </div>
+                <div class="info">
+                  <p class="author clicked" ng-click="$ctrl.goToRadio(review.stationUnit.id)">{{review.stationUnit.name}}</p>
+                  <p class="date">{{review.shortAddress}}</p>
+                  <p class="date">rádio avaliada em {{review.dateTime | date : 'dd/MM/yyyy'}} às {{review.dateTime | date : 'HH:mm'}}</p>
+                  <p class="text">{{review.text}}</p>
+                </div>
+                <div class="rating">
+                  <span uib-rating ng-model="review.score" max="5" read-only="true" state-on="'fa fa-star'" state-off="'fa fa-star-o'"></span>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </section>
+  </div>
 </div>
-<div class="back-stations section">
+<div class="back-stations section" ng-if="$ctrl.favoriteStations && $ctrl.favoriteStations.length > 0">
   <div class="page-footer">
     <div class="page-footer-section">
       <div class="stations">
@@ -52,17 +146,17 @@
           <ul class="container horizontal wrap" infinite-scroll="$ctrl.loadMoreFavorite()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.favoriteState != 'idle'">
             <li class="slide" ng-repeat="slide in $ctrl.favoriteStations">
               <div class="content">
-                <div class="logo-wrapper">
+                <div class="logo-wrapper clicked" ng-click="$ctrl.goToRadio(radio.id)">
                   <img class="logo" ui-sref="radio({radioId: slide.id})" ng-src="{{$ctrl.getImageURL(slide.image.identifier60)}}">
                 </div>
-                <h3 class="title" ui-sref="radio({radioId: slide.id})">{{slide.name}}</h3>
+                <h3 class="title clicked" ui-sref="radio({radioId: slide.id})" ng-click="$ctrl.goToRadio(radio.id)">{{slide.name}}</h3>
                 <p class="location">{{slide.city}}</p>
                 <div class="likes">
                   <i class="fa fa-heart"></i> {{slide.likes}}
                 </div>
                 <div class="actions">
                   <button class="round" mp-play="slide"><div class="inner"><i class="fa fa-play"></i></div></button>
-                  <button class="round" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favoriteFavoriteStations(slide)>
+                  <button class="round clicked" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favoriteFavoriteStations(slide)>
                       <div ng-class="{
                           'inner inner-in': slide.favorite == true,
                           'inner': slide.favorite == false
@@ -92,20 +186,20 @@
 <div class="gradient-bg section" ng-if="$ctrl.isProfile">
   <div class="page-footer">
     <div class="page-footer-section">
-      <h2 class="section-title color-primary">Hist&oacute;rico</h2>
+      <h2 class="section-title color-primary">Histórico</h2>
       <div class="historico-container">
-        <ul class="historico-radio-list vertical wrap"  infinite-scroll="$ctrl.loadMoreHistory()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.historyState != 'idle'">
+        <ul class="historico-radio-list vertical wrap" infinite-scroll="$ctrl.loadMoreHistory()" infinite-scroll-parent infinite-scroll-disabled="$ctrl.historyState != 'idle'">
           <li class="radio" ng-repeat="radio in $ctrl.history | orderBy:'-historyDate'">
-            <div class="picture-wrap" ng-click="$ctrl.goToRadio(radio.id)">
+            <div class="picture-wrap clicked" ng-click="$ctrl.goToRadio(radio.id)">
               <img class="picture" ng-src="{{$ctrl.getImageURL(radio.image.identifier60)}}">
             </div>
             <div class="content">
-              <h3 class="title" ng-click="$ctrl.goToRadio(radio.id)">{{radio.name}}</h3>
+              <h3 class="title clicked" ng-click="$ctrl.goToRadio(radio.id)">{{radio.name}}</h3>
               <p class="location">{{radio.city}}</p>
               <!--<p class="location">{{radio.historyDate}}</p>-->
               <div class="actions">
                 <button class="round" mp-play="radio"><div class="inner">&nbsp;<i class="fa fa-play"></i></div></button>
-                <button class="round" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favoriteHistory(radio)>
+                <button class="round clicked" ng-disabled="!$ctrl.isIdentified()" ng-click=$ctrl.favoriteHistory(radio)>
                     <div ng-class="{
                         'inner inner-in': radio.favorite == true,
                         'inner': radio.favorite == false
