@@ -33,22 +33,15 @@ function UserController($http, $url, $util, $user, Upload, $anchorScroll, $state
   $ctrl.$onInit = () => {
     let profile = $user.getProfile();
     if (profile) {
-      $user.getUser(profile.id)
-        .then(response => {
-          $ctrl.user = response.data.data;
-          $ctrl.user.birthdate = new Date($ctrl.user.birthdate);
-          $ctrl.confirmPassword = $ctrl.user.password;
-          if ($ctrl.user.city) {
-            $ctrl.city = $ctrl.user.city.id;
-            $ctrl.state = $ctrl.user.city.state.id;
-            $ctrl.loadCitys();
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          $anchorScroll();
-          $state.go('home');
-        });
+      $ctrl.user = profile;
+      $ctrl.user.birthdate = new Date($ctrl.user.birthdate);
+      $ctrl.birthdate = $ctrl.user.birthdate;
+      $ctrl.confirmPassword = $ctrl.user.password;
+      if ($ctrl.user.city) {
+        $ctrl.city = $ctrl.user.city.id;
+        $ctrl.state = $ctrl.user.city.state.id;
+        $ctrl.loadCitys();
+      }
     }
     else {
       $anchorScroll();
@@ -57,7 +50,7 @@ function UserController($http, $url, $util, $user, Upload, $anchorScroll, $state
   }
 
   $ctrl.loadCitys = () => {
-    $http.get(`${$url}/address/city/containingstation?stateid=${$ctrl.state}`)
+    $http.get(`${$url}/address/city?stateId=${$ctrl.state}`)
       .then(response => {
         $ctrl.citys = [];
         citys = response.data.data;
@@ -124,11 +117,11 @@ function UserController($http, $url, $util, $user, Upload, $anchorScroll, $state
 
   $ctrl.updateUser = (user) => {
     if (user) {
-      if (user.birthdate) {
+      if ($ctrl.birthdate) {
         var date = 
-          user.birthdate.getFullYear() + "-" + 
-          (user.birthdate.getMonth() < 10 ? ('0'+user.birthdate.getMonth()) : user.birthdate.getMonth()) + "-" +
-          user.birthdate.getDate() +
+          $ctrl.birthdate.getFullYear() + "-" + 
+          (($ctrl.birthdate.getMonth()+1) < 10 ? ('0'+($ctrl.birthdate.getMonth()+1)) : $ctrl.birthdate.getMonth()) + "-" +
+          $ctrl.birthdate.getDate() +
           'T00:00:00-0300';
         user.birthdate = date;
       }

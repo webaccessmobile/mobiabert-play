@@ -149,9 +149,7 @@ export default function PlayerController ($scope, $document, $window, $api, $uti
           //Manda tocar o áudio
           audio.play();
           //Atualiza histórico
-          if ($user.isIdentified()) {
-            $profile.putPlayHistory(radio);
-          }
+          $profile.playHistory(radio);
 
           $ctrl.checkAudioState();
           $ctrl.checkVolumeIcon();

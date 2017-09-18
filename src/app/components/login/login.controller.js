@@ -11,7 +11,7 @@ function LoginController($scope, $auth, $user, $state, $modal, $profile) {
       response => {
         $user.setProfile(response.data.data);    
         $modal.close();
-        $state.go('home');
+        $user.checkUser(response.data.data);
       },
       response => $ctrl.error = response.data.error.message
     );

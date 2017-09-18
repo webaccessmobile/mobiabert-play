@@ -8,8 +8,9 @@
         <button ng-click="$ctrl.login()">Entrar <i class="fa fa-sign-in"></i></button>
       </div>
       <div class="nav-item" ng-show="$ctrl.isIdentified()">
-        <span>{{$ctrl.profile().name}}</span>
-        <img class="account-picture" ng-src="{{$ctrl.getImgSrc($ctrl.profile().image.identifier100)}}">
+        <a ui-sref="about">Sobre o MobiAbert</a>
+        <span>{{$ctrl.getProfile().name}}</span>
+        <img class="account-picture" ng-src="{{$ctrl.getImgSrc($ctrl.getProfile().image.identifier100)}}">
         <div class="dropdown">
           <span>&nbsp<i class="fa fa-bars"></i>&nbsp</span>
           <div class="dropdown-content">

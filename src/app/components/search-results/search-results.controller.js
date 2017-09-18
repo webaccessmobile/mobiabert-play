@@ -17,7 +17,7 @@ function SearchResultsController($modal, $api, $util, $user, $scope, $log, $stat
       case 'name':
         $api.radios.queryByName({ name: $ctrl.term, pageNumber: page, pageSize: 12 })
           .$promise.then(result => {
-            if (result.data.records) {
+            if (result.data.records.length > 0) {
               $ctrl.radios = $ctrl.radios.concat(result.data.records);
               page++;
               $ctrl.state = 'idle';
@@ -29,7 +29,19 @@ function SearchResultsController($modal, $api, $util, $user, $scope, $log, $stat
       case 'genre':
         $api.radios.queryByGenre({ id: $ctrl.term, pageNumber: page, pageSize: 12 })
           .$promise.then(result => {
-            if (result.data.records) {
+            if (result.data.records.length > 0) {
+              $ctrl.radios = $ctrl.radios.concat(result.data.records);
+              page++;
+              $ctrl.state = 'idle';
+            } else {
+              $ctrl.noMoreContent = 'no-more-content';
+            }
+          });
+        break;
+      case 'city':
+        $api.radios.queryByCity({ id: $ctrl.term, pageNumber: page, pageSize: 12 })
+          .$promise.then(result => {
+            if (result.data.records.length > 0) {
               $ctrl.radios = $ctrl.radios.concat(result.data.records);
               page++;
               $ctrl.state = 'idle';

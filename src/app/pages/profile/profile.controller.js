@@ -26,6 +26,7 @@ function ProfileController($state, $url, $util, $user, $profile, $radio, $http, 
     $ctrl.isProfile = false;
     if ($ctrl.profile) {
       $ctrl.isProfile = $ctrl.profile.id == $state.params.id;
+      $user.checkUser($ctrl.profile);
     }
 
     $user.getUser($state.params.id)

@@ -7,4 +7,16 @@
     <button class="form-button submit-button" type="submit">Buscar</button>
   </div>
 </form>
+<form class="form-horizontal">
+  <div class="form-group with-label col-2">
+    <select class="form-control select-input" ng-model="$ctrl.state" ng-change="$ctrl.loadCitys()">
+      <option ng-repeat="option in $ctrl.states" ng-value="option.value">{{option.label}}</option>
+    </select>
+  </div>
+  <div class="form-group with-label col-2">
+    <select class="form-control select-input" ng-model="$ctrl.city" ng-change="$ctrl.submitForCity()">
+      <option ng-repeat="option in $ctrl.citys" ng-value="option.value">{{option.label}}</option>
+    </select>
+  </div>
+</form>
 <img class="shadow" src="../../images/shadow.png">

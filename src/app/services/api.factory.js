@@ -8,7 +8,7 @@ function ApiFactory ($http, $resource) {
         url: '/api/app/smartsearch/station',
       },
       queryByCity: {
-        params: {action: 'city'}
+        url: '/api/stationunit/search/city',
       },
       queryByState: {
         params: {action: 'state'}

@@ -20,7 +20,7 @@ let ProfileFactory = function ($http, $user, $resource) {
   }
 
   return {
-    putPlayHistory : (radio) => { 
+    playHistory : (radio) => { 
       if (radio && radio.id) {
         let       
           url = '/api/stationunit/history',

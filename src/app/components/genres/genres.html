@@ -1,0 +1,22 @@
+<div class="genres-section">
+  <div class="genre-list-container">
+    <div class="genre-container" ng-repeat="genre in $ctrl.genres track by genre.id">
+      <div class="genre-picture-container" ng-switch="genre.id" ng-click="$ctrl.selectGenre(genre.id)">
+        <img class="genre-picture" src="../../images/anos-60-90.jpg" ng-switch-when="1">
+        <img class="genre-picture" src="../../images/catolica.jpg" ng-switch-when="2">
+        <img class="genre-picture" src="../../images/classica.jpg" ng-switch-when="3">
+        <img class="genre-picture" src="../../images/country.jpg" ng-switch-when="4">
+        <img class="genre-picture" src="../../images/edm.jpg" ng-switch-when="5">
+        <img class="genre-picture" src="../../images/gospel.jpg" ng-switch-when="6">
+        <img class="genre-picture" src="../../images/esporte.jpg" ng-switch-when="7">
+        <img class="genre-picture" src="../../images/mpb.jpg" ng-switch-when="8">
+        <img class="genre-picture" src="../../images/popular.jpg" ng-switch-when="9">
+        <img class="genre-picture" src="../../images/pop-internacional.jpg" ng-switch-when="10">
+        <img class="genre-picture" src="../../images/rock.jpg" ng-switch-when="11">
+        <img class="genre-picture" src="../../images/samba.jpg" ng-switch-when="12">
+        <img class="genre-picture" src="../../images/sertanejo.jpg" ng-switch-when="13">
+      </div>
+      <h3 class="genre-title color-primary" ng-click="$ctrl.selectGenre(genre.id)">{{genre.name}}</h3>
+    </div>
+  </div>
+</div>
